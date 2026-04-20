@@ -1,4 +1,5 @@
 from config import database
+from schema.users_sch import user_schema
 
 def create_table():
     conn = database.connection_db()
@@ -42,14 +43,6 @@ async def obtain_user(id: int):
     result = cursor.fetchone()
     cursor.close()
     conn.close()
-    if result:
-        return {
-            "id": result[0],
-            "nombre": result[1],
-            "apellido": result[2],
-            "email": result[3],
-            "curso": result[4],
-            "anio": result[5],
-            "direccion": result[6],
-        }
-    return{"mensaje": "Usuario no encontrado"}
+    if result is None:
+        return {"mensaje": "Usuario no encontrado"}
+    return user_schema(result)
