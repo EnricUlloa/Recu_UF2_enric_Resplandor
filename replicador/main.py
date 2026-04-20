@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Form
-from services.user import create_table, fill_user, obtain_user, update_user
+from services.user import create_table, fill_user, obtain_user, update_user, delete_user
 
 app = FastAPI()
 
@@ -28,4 +28,9 @@ async def obtener(id: int):
 @app.put("/formulario/registro/{id}", response_model=dict)
 async def modificar(id: int, apellido: str, direccion: str):
     result = await update_user(id, apellido, direccion)
+    return result
+
+@app.delete("/formulario/registro/{id}", response_model=dict)
+async def eliminar(id: int):
+    result = await delete_user(id)
     return result
