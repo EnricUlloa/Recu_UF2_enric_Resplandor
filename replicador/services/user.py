@@ -56,3 +56,13 @@ async def update_user(id: int, apellido:str, direccion: str):
     cursor.close()
     conn.close()
     return{"mensaje": "Usuario actualizado correctamente"}
+
+async def delete_user(id: int):
+    conn = database.connection_db()
+    cursor = conn.cursor()
+    sql_delete = "DELETE FROM users WHERE id = %s"
+    cursor.execute(sql_delete, (id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return {"mensaje": "Usuario eliminado correctamente"}
