@@ -33,3 +33,23 @@ async def fill_user(nombre, apellido, email, descripcion, curso, anio, direccion
     cursor.close()
     conn.close()
     return{"mensaje": "Usuario creado correctamente"}
+
+async def obtain_user(id: int):
+    conn = database.connection_db()
+    cursor = conn.cursor()
+    sql_get = "SELECT id, nombre, apellido, email, curso, anio, direccion FROM users WHERE id = %s"
+    cursor.execute(sql_get, (id,))
+    result = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    if result:
+        return {
+            "id": result[0],
+            "nombre": result[1],
+            "apellido": result[2],
+            "email": result[3],
+            "curso": result[4],
+            "anio": result[5],
+            "direccion": result[6],
+        }
+    return{"mensaje": "Usuario no encontrado"}

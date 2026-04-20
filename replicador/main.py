@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Form
-from services.user import create_table, fill_user
+from services.user import create_table, fill_user, obtain_user
 
 app = FastAPI()
 
@@ -18,4 +18,9 @@ async def insertar(
         password: str = Form(...)
     ):
     result = await fill_user(nombre, apellido, email, descripcion, curso, anio, direccion, cp, password)
+    return result
+
+@app.get("/formulario/registro/{id]", response_model=dict)
+async def obtener(id: int):
+    result = await obtain_user(id)
     return result
