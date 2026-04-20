@@ -46,3 +46,13 @@ async def obtain_user(id: int):
     if result is None:
         return {"mensaje": "Usuario no encontrado"}
     return user_schema(result)
+
+async def update_user(id: int, apellido:str, direccion: str):
+    conn = database.connection_db()
+    cursor = conn.cursor()
+    sql_put = "UPDATE users SET apellido = %s, direccion = %s WHERE id = %s"
+    cursor.execute(sql_put, (apellido, direccion, id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return{"mensaje": "Usuario actualizado correctamente"}
